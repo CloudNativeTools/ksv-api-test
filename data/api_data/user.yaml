@@ -1,0 +1,7 @@
+user:
+  create_user:
+    - title: '创建用户'
+      variables:
+        name: 'auto-alice'
+        email: 'auto-alice@yunify.com'
+        password: 'P@88w0rd'

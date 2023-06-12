@@ -1,0 +1,7 @@
+policy:
+  create_policy:
+    - title: '创建告警策略'
+      variables:
+        alias-name: 'auto-policy'
+        type: 'everyDay'
+        time: '09:00'

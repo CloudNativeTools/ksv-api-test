@@ -1,0 +1,54 @@
+namespace:
+  create_namespace:
+    - title: '创建项目'
+      variables:
+        name: 'auto-test'
+  delete_namespace:
+    - title: '删除项目'
+      variables:
+        name: 'auto-test'
+  edit_namespace:
+    - title: '编辑项目'
+      variables:
+        name: 'auto-test'
+        alias_name: 'auto-alias'
+        description: 'auto-desc'
+  get_namespace:
+    - title: '获取项目列表'
+  describe_namespace:
+    - title: '获取项目详情'
+      variables:
+        name: 'auto-test'
+  check_ns_exist:
+    - title: '校验项目名是否存在'
+      variables:
+        name: 'auto-test'
+  get_ns_members:
+    - title: '获取项目成员'
+      variables:
+        name: 'auto-test'
+  get_ns_role:
+    - title: '获取项目角色'
+      variables:
+        name: 'auto-test'
+  join_namespace:
+    - title: '邀请用户加入项目'
+      variables:
+        name: 'auto-test'
+        username: 'auto-alice'
+        role: 'admin'
+  change_ns_role:
+    - title: '变更项目用户角色'
+      variables:
+        name: 'auto-test'
+        username: 'auto-alice'
+        role: 'admin'
+        user_role: 'operator'
+  left_namespace:
+    - title: '移除项目用户'
+      variables:
+        name: 'auto-test'
+        role: 'admin'
+        username: 'auto-alice'
+
+

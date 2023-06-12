@@ -1,0 +1,13 @@
+env: test
+test:
+  host: 'http://172.31.50.23:30890'
+  account:
+    user: 'admin'
+    pwd: 'P@88w0rd'
+  
+release:
+  host: 'https://release.aomaker.com'
+  account:
+    user: 'aomaker'
+    pwd: '123456'
+
