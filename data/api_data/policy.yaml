@@ -1,7 +1,18 @@
 policy:
   create_policy:
-    - title: '创建告警策略'
+    - title: '创建定时器策略'
       variables:
         alias-name: 'auto-policy'
         type: 'everyDay'
         time: '09:00'
+  edit_policy:
+    - title: '编辑定时器策略'
+      variables:
+        alias-name: 'modify-policy'
+        type: 'nDay'
+        deltas: [ 5 ]
+        time: '10:00'
+  describe_policy:
+    - title: '获取定时器详情'
+      variables:
+        alias-name: 'auto-policy'
