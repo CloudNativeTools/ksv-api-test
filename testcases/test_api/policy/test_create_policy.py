@@ -10,6 +10,7 @@ import pytest
 from aomaker.aomaker import data_maker
 from aomaker.base.base_testcase import BaseTestcase
 
+from apis.namespace import ns
 from apis.policy import policy
 
 
@@ -19,5 +20,15 @@ class TestCreatePolicy(BaseTestcase):
     @pytest.mark.parametrize("data", data_maker("data/api_data/policy.yaml", "policy", "create_policy"))
     def test_create_policy(self, data):
         policy_data = data['variables']
+
         resp = policy.create_policy(policy_data)
-        return resp
+
+        self.assert_eq(resp.get('metadata').get('annotations').get('kubesphere.io/alias-name'),
+                       policy_data['alias-name'])
+        self.assert_eq(resp.get('spec').get('time'), policy_data['time'])
+        self.assert_eq(resp.get('spec').get('type'), policy_data['type'])
+        # schema断言
+        self.assert_schema(resp, 'create_policy')
+
+        # 查看列表，匹配该数据
+        self.assert_gt(len(policy.policy_filter_by_alias(policy_data['alias-name'])), 0)
