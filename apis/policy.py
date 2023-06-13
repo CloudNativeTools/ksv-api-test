@@ -47,8 +47,9 @@ class Policy(BaseApi):
         response = self.send_http(http_data)
         return response
 
-    def get_all_policy(self, limit=10):
+    def get_all_policy(self, page=1, limit=10):
         """获取定时策略列表
+        :param page: 页码数，默认1
         :param limit: 每页条数，10
         :return:
         """
@@ -56,6 +57,25 @@ class Policy(BaseApi):
             "api_path": "/kapis/resources.kubesphere.io/v1alpha3/virtualmachinetimerpolicies",
             'method': 'get',
             'params': {'sortBy': 'createTime',
+                       'page': page,
+                       'limit': limit}
+        }
+        response = self.send_http(http_data)
+        return response
+
+    @dependence(ns.get_all_namespace, 'namespace_list')
+    def get_policy_by_pro(self, page=1, limit=10):
+        """获取单项目-定时策略列表
+        :param page: 页码数，默认1
+        :param limit: 每页条数，10
+        :return:
+        """
+        ns_name = self.cache.get_by_jsonpath('namespace_list', jsonpath_expr='$..name')
+        http_data = {
+            "api_path": f"/kapis/resources.kubesphere.io/v1alpha3/namespaces/{ns_name}/virtualmachinetimerpolicies",
+            'method': 'get',
+            'params': {'sortBy': 'createTime',
+                       'page': page,
                        'limit': limit}
         }
         response = self.send_http(http_data)
