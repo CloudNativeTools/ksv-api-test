@@ -16,3 +16,5 @@ policy:
     - title: '获取定时器详情'
       variables:
         alias-name: 'auto-policy'
+  get_policy:
+    - title: '获取定时器列表'
