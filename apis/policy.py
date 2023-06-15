@@ -16,7 +16,6 @@ from apis.namespace import ns
 
 class Policy(BaseApi):
     @dependence(ns.get_all_namespace, 'namespace_list')
-    @update("policy_list")
     def create_policy(self, policy_data: dict):
         ns_name = self.cache.get_by_jsonpath('namespace_list', jsonpath_expr='$..name')
         body = {
@@ -81,19 +80,18 @@ class Policy(BaseApi):
         response = self.send_http(http_data)
         return response
 
-    @dependence("policy.get_all_policy", "policy_list", imp_module="apis.policy")
     def policy_filter_by_alias(self, policy_alias):
         """通过policy_name获取项目list
         :param policy_alias: 策略别名
         :return:
         """
-        # 获取依赖接口返回数据
-        policy_list = self.cache.get("policy_list")
+        policy_list = self.get_all_policy()
         po_list = [po_list for po_list in policy_list.get('items')
                    if po_list.get('metadata').get('annotations').get('kubesphere.io/alias-name') == policy_alias]
         return po_list
 
-    @dependence("policy.describe_policy", "describe_policy", imp_module="apis.policy")
+    @dependence("policy.describe_policy", "describe_policy", policy_alias='auto-policy', imp_module="apis.policy")
+    @update("describe_policy", policy_alias='auto-policy')
     def edit_policy(self, policy_data: dict):
         po_namespace = self.cache.get_by_jsonpath('describe_policy', jsonpath_expr='$..namespace')
         po_name = self.cache.get_by_jsonpath('describe_policy', jsonpath_expr='$..name')
@@ -126,18 +124,41 @@ class Policy(BaseApi):
         response = self.send_http(http_data)
         return response
 
-    @dependence("policy.policy_filter_by_alias", "policy_filter", policy_alias='auto-policy', imp_module="apis.policy")
-    def describe_policy(self):
+    def describe_policy(self, policy_alias):
         """
         获取策略详情
         :return:
         """
-        policy_name = self.cache.get_by_jsonpath('policy_filter', jsonpath_expr='$..name')
+        policy_list = self.policy_filter_by_alias(policy_alias)
+        if len(policy_list) > 0:
+            policy_name = policy_list[0].get('metadata').get('name')
+            http_data = {
+                "method": "get",
+                "api_path": f"/apis/virtualization.kubesphere.io/v1alpha1/namespaces/auto-test/virtualmachinetimerpolicies/{policy_name}",
+            }
+            response = self.send_http(http_data)
+            return response
+
+    def delete_policy(self, policy_data: dict):
+        """
+        删除策略
+        :return:
+        """
+        po_namespace = policy_data.get('metadata').get('namespace')
+        po_name = policy_data.get('metadata').get('name')
+
+        body = {}
         http_data = {
-            "method": "get",
-            "api_path": f"/apis/virtualization.kubesphere.io/v1alpha1/namespaces/auto-test/virtualmachinetimerpolicies/{policy_name}",
+            "method": "delete",
+            "api_path": f"/apis/virtualization.kubesphere.io/v1alpha1/namespaces/{po_namespace}/virtualmachinetimerpolicies/{po_name}",
+            "json": body
         }
         response = self.send_http(http_data)
+
+        # # 删除该资源后，需从cache表下清空
+        if self.cache.get('describe_policy'):
+            self.cache.del_({'var_name': 'describe_policy'})
+
         return response
 
     def get_for_test(self, test_data: dict):

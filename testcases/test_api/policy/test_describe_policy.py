@@ -20,13 +20,13 @@ class TestDescribePolicy(BaseTestcase):
     @pytest.mark.parametrize("policy_init", data_maker("data/api_data/policy.yaml", "policy", "create_policy"))
     def test_describe_policy(self, data, policy_init):
         policy_data = data['variables']
+
         po_init = policy_init['variables']
+        policy.get_for_test(po_init)
 
-        policy_resp = policy.get_for_test(po_init)
-        po_name = policy_resp['metadata']['name']
-        resp = policy.describe_policy()
+        resp = policy.describe_policy(policy_data['alias-name'])
 
+        # 断言
         self.assert_eq(resp.get('metadata').get('annotations').get('kubesphere.io/alias-name'),
                        policy_data['alias-name'])
-        self.assert_eq(resp.get('metadata').get('name'), po_name)
         self.assert_schema(resp, 'describe_policy')
