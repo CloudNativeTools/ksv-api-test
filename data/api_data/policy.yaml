@@ -8,13 +8,15 @@ policy:
   edit_policy:
     - title: '编辑定时器策略'
       variables:
-        alias-name: 'modify-policy'
+        alias-name: 'auto-policy'
         type: 'nDay'
         deltas: [ 5 ]
         time: '10:00'
   describe_policy:
-    - title: '获取定时器详情'
+    - title: '获取定时器策略详情'
       variables:
         alias-name: 'auto-policy'
   get_policy:
-    - title: '获取定时器列表'
+    - title: '获取定时器策略列表'
+  delete_policy:
+    - title: '删除定时器策略'

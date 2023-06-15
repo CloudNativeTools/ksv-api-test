@@ -21,8 +21,15 @@ class TestCreatePolicy(BaseTestcase):
     def test_create_policy(self, data):
         policy_data = data['variables']
 
+        # 查询是否数据存在，存在则删除
+        policy_list = policy.policy_filter_by_alias(policy_data['alias-name'])
+        if len(policy_list) > 0:
+            for pl in policy_list:
+                policy.delete_policy(pl)
+
         resp = policy.create_policy(policy_data)
 
+        # 断言
         self.assert_eq(resp.get('metadata').get('annotations').get('kubesphere.io/alias-name'),
                        policy_data['alias-name'])
         self.assert_eq(resp.get('spec').get('time'), policy_data['time'])
