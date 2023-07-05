@@ -1,0 +1,11 @@
+FROM dockerhub.qingcloud.com/listen/python:3.9.13-devtools
+
+MAINTAINER qiaoshilu@yunify.com
+
+RUN mkdir -p /data/autotest
+
+ADD . /data/autotest
+
+WORKDIR /data/autotest
+
+RUN pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple

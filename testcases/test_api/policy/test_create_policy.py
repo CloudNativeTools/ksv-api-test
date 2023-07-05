@@ -10,7 +10,6 @@ import pytest
 from aomaker.aomaker import data_maker
 from aomaker.base.base_testcase import BaseTestcase
 
-from apis.namespace import ns
 from apis.policy import policy
 
 

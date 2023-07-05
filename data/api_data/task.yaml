@@ -1,0 +1,10 @@
+task:
+  create_task:
+    - title: '创建定时器任务'
+      variables:
+        alias-name: 'auto-task'
+        type: 'repeat'
+        target_type: "vm"
+        target_action: "restartVM"
+        failed_times: 3
+        failed_stop: False
