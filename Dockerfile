@@ -1,4 +1,4 @@
-FROM dockerhub.qingcloud.com/listen/python:3.9.13-devtools
+FROM docker.io/ben950128/python3.9.13-slim_psycopg2
 
 MAINTAINER qiaoshilu@yunify.com
 
