@@ -1,4 +1,4 @@
-FROM docker.io/ben950128/python3.9.13-slim_psycopg2
+FROM docker.io/qiaoshilu/devops-python
 
 MAINTAINER qiaoshilu@yunify.com
 
