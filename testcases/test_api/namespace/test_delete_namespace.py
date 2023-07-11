@@ -21,9 +21,7 @@ class TestDeleteNameSpace(BaseTestcase):
     def test_delete_namespace(self, data):
         test_data = data['variables']
         # 先查询是否已存在该项目
-        ns_list = ns.namespace_filter_by_name(test_data['name'])
-        if len(ns_list) == 0:
-            ns.create_namespace(test_data)
+        ns.get_for_test(test_data)
 
         resp = ns.delete_namespace(test_data)
         self.assert_eq(resp.get('metadata').get('name'), test_data['name'])
