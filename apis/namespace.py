@@ -127,8 +127,9 @@ class NameSpace(BaseApi):
         ns_list = self.namespace_filter_by_name(test_data['name'])
         if len(ns_list) > 0:
             return ns_list[0]
-        self.create_namespace(test_data)
-        return self.namespace_filter_by_name(test_data['name'])[0]
+        else:
+            self.create_namespace(test_data)
+            return self.namespace_filter_by_name(test_data['name'])[0]
 
     def get_namespace_current_info(self, ns_name, login_info):
         """
